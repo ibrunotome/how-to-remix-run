@@ -29,6 +29,19 @@ export function createOrder(data: OrderInput) {
   });
 }
 
+export function getOrder(orderId: string) {
+  return db.order.findUnique({
+    where: { id: orderId },
+  });
+}
+
+export function updateOrder(id: string, data: Partial<OrderInput>) {
+  return db.order.update({
+    where: { id },
+    data,
+  });
+}
+
 export function getTotals({ products }: { products: Product[] }): Totals {
   const subTotal = products.reduce((acc, product) => {
     return acc + Number(product.price);

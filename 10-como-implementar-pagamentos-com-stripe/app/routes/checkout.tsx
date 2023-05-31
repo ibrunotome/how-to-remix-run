@@ -1,11 +1,11 @@
-import type { ActionArgs, redirect } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { Checkout, checkoutSchema, createOrder } from "~/features/Checkout";
+import { commitSession, getSession } from "~/session.server";
 
-import type { LoaderArgs } from "@remix-run/node";
 import formsStyles from "~/styles/forms.css";
-import { getSession } from "~/session.server";
 import { getTotals } from "~/features/Checkout";
 import { json } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
 export function links() {
@@ -25,7 +25,13 @@ export async function action({ request }: ActionArgs) {
     totals: JSON.stringify(totals),
   });
 
-  console.log(order);
+  session.set("orderId", order.id);
+
+  return redirect("/payment", {
+    headers: {
+      "Set-Cookie": await commitSession(session),
+    },
+  });
 
   return null;
 }
