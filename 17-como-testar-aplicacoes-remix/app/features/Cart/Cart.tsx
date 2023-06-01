@@ -65,7 +65,10 @@ export function Cart({ products }: Props) {
                       className="flex-shrink-0 w-6 h-6 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
                     />
-                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
+                    <span
+                      data-testid="product-quantity"
+                      className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800"
+                    >
                       {products.length}
                     </span>
                     <span className="sr-only">items in cart, view bag</span>
